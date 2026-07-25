@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Violin Note Game — 1st Position</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Violin Notes">
+<meta name="theme-color" content="#1B2A5B">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAKHklEQVR4nO3df0zU9x3H8S8cPw4QBAKaVOrQgoYfQoVY0UpBKmXG0kadMcxkYXFLFk0b186tdu1cY21a67rGzK0kLjVrq502tq4VF+PBDisK2HqIgMD8UQRXRFE4fh8H+4OFXYD3974/Pt/7fL9fXo//kO/3+HifJ5/73PcunN+85C0CwHT8eQ8A9AtxAAlxAAlxAAlxAAlxAAlxAAlxACmA1w8e3rGO1482oqD3T/n+h/r57AopamDIN61oHgea0JSmlWgYB7LwGY0S0SQOZMEF80QYx4EsuGOYCMunsihDDxjOArOVQ+6YuDw3My4udy+DOKSPG0Ew4bM7XG0cEgeKLJjzwT2vKg6v40MTPqDdLCjfkKIMnfB6PyveoipcOcR/HrLggvmkKFk5UIY+id/zCtYPxi/Zowy+2N7/suMQCRBl6IHILMhdPOTFgTIMgVUfMuJAGQbCpA8Gew6UoU/q50VqHFRuKEPPqNmRuHjgDcZAkhQHlg3jUrN4KF85UIZRaPjaCt7CY1ZeZxZ7DiApjAOPKcaibL68xIHHFHMTn18lKweWDSPy0Uv2MEMgDiAhDiCJxTHtbgUbDuOadu5E9qRYOYA0Q+Mo2phbemzPS9s3pKcu9PPz4z0cneL2l334io4KT0tZkJay4KVtG+519ZSfq7XZHfbKOqezn/fQdGSGxuEpJjpi0/PZm57PHnG7a75tttkdZRWO5uvtvMfFH+L4vwCLZcWypBXLkl77VdHt9k5bhcNmd1RWNwwNuXgPjQ/EMb1H58UWF+UXF+UPDg5/XVVfVlFrs19u/8993uPyKcThhdUatCZn6ZqcpcLrxU0tbbaKyza745Kjxe0e5T00zSEOGRYnxi1OjNu2tbC7p89+vs5W4fjX11fud/XwHpdWEIcSsyPCnlub9dzarNHRMUfd9fHdSf2178bGxngPjSXEoYq/v19GekJGesLOF350t/OhrcJhq3Ccq7za1z/Ie2gMIA5m5sRGFm3MLdqY63KNXLx07a33Pq1ruMV7UKrM0CukmgoMDMhekZqaHM97IGohDuHFV/7ywYenbn73Pe+B6A4eVoRva/994svzb+4/mrjwkWfyMgvyMpemPYYXXATE4anlxp2WG3cOHvoyNmZ2fm5GQV7mqqyU4OBA3uPiBnFMo/Ne95HPyo98Vh4aEpzzZFpBXubTOY9HRc7iPS5fQxxi+geGTp+tOX22xmLxX5axuCAvoyAvc37cHN7j8hHEIYnbPXqxpvFiTeMb73yyODGuIC/zmdUZpn8vCOKQramlraml7UDJyblzovJzlxbkZT65PDkoyIRbE8ShXMfdBx8fK/v4WFlYqDV31f+2JrMjwniPixnEwUBf/+CpM9WnzlQvToyzffE27+Ewg4tgQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQEIcQDLh3wSLiY5YtSL1iYxFcY/EREeFdzv7v+94cKGmofycmT84RwumimPFsqRtW599auUSi2Xyirh5/VMjbvfxL84dKDl5u72Ty/AMxyRxhM8K2ffGzwp/uFzkmACLpWhj7vp1K/fsP+KzgRmaGeIIsQYdPfTK40sek3Kw1Rq097XiBw97tR6VCZhhQ7rzxU0Sy5gwA//KvQKGjyPEGvSTzU+ruQVzfWgfS4aPIyM9wWoNUnML/ab4sD4tGD6O2JhINae7XCPYf1AMH4fLNaLm9Cv1N0fcblaDMRnDP1vpuPtAzemff1Up95QQa1BUZPjY2Ni9rh6Vaeqc4eOorb/p7B0InxWi4Nzb7Z1//9wu5cjxzwZcuTw5KfHRObGRE/9+q7XjfFX9ia8qqy5dUzAAnTN8HC7XyCfHy37x03VyTxwedu3Y9cHA4LD4YYsS4nb/ZkvOyiXTfjd+/tz4+XO3bMq72njrzf1HO+93yx2Gnhk+DkEQ3jt4YlVWSmpSvPRTevsGt+/8U9U3TeKHrV2z7OC726R8ClNqUvynf91VWd0gfQz6Z/gNqSAI/QNDm4r3niy9IPH4qkvXnt38O5vdIX7YooS4P+/fLuvzuVY+kSz9YP0zw8ohCIKzd2D7zoMlh0s3Fq5anZ0eP3+uv//kj+ZzuUaqvmk69Ld/nrVflnKbL2/fEBhokvtHGVP956/U37xSf3P32x8FBwf+IG5OeHhoaEiwxeLf4+xvu3Ov8173mOSrof7+fquz09UMZtQ9quZ0PTBVHBOGhlzN19vV3EJ0ZHhoSLCaW+ju6VNzuh6YYc+hBfUfGNvaZvh3jSCO6XU9dEp/DJrqfldPY/NthuPhAnFMz+0erWu4pfj0j46VqWlLJxAH6R+nLyo7sbWts+RwKdvBcIE4SB8eOXOrtUPuWfe7era+8Eens1+LIfkY4iANDbl+/PN3ZL0b2VF3vbBod2Nzq3aj8iXEIaa17W7++l0lh0udvQPiRzY2t/7y1ZLCot+b4EnKBHNe52Cot29wz7tH9h04np2Vmpa6IHHhvMjZYWGh1oAAiyAIff2DF6obbRWO2qs3eI+UPcQhydCQ66z9ssTr7qaBhxUgIQ4gIQ4gIQ4gIQ4gIQ4gIQ4gIQ4gIQ4gIQ4gIQ4gIQ4gIQ4gIQ4gIQ4gIQ4gIQ4gIQ4gicUR9P6pqf84vEP2n0kBnZh27qad5XFYOYCEOICko3ef1+876/llyq/XMLnZqgin55fLe8KZ3Ozqt173/LL81T1Mbva3f7B4frn3ZZ5/BtNvXvIWkW9TOwyRByoFJmXhSU0ik7LwpCaRSVl4UpPIpCw8MUlEwVR6iYO6UVZxiGThSW4iIll4kpuISBae5CYikoUnlYkomEeFew4mz1kkliHrSEFyGbKOFCSXIetIQXIZso6cStl8YUMKJO9xsN1eTJC1GEg/XtZiIP14WYuB9OPlLgZqFo+pvM6s8pUDV8OMQvFMSYqDSkzxT5W7bEg8S+6yIfEsucuGxLOULQNyz1LzfBN7DiBJjYP54gE+oPIyFYOVA33ok/p5kRGHSG7oQ29EZkT60095KwerPpRdFPd6lrKL4l7PUnZR3OtZyq54SjmLSRmCgocVrB86x6oMgfmzFel9yF08JB4vd/GQeLzcxUPi8XIXD6/Hs/39VBKHeIBYP3gRv+cVXOn2/qqssqFIHA1elRVYvCrLZC6mUh6HwG5MeD+HoOL9HBqVIaiMQ5D8IKJgFcE7wQR1q8U4Na+bqo1DkLPJ0OgF3pnGZ3c4gzjGyd2HIhRZuNy9zOIQ8DxFN1j94rG8zoHFQA8YzgLLlWMClhAumP9yahLHOCTiMxqt2RrGMQ6JaErTh3LN45iAShjyzfbOd3FMglZk4bLZ5xYH6B/eYAwkxAEkxAEkxAEkxAEkxAEkxAGk/wJ5w5PHmZrCjQAAAABJRU5ErkJggg==">
+<link rel="icon" href="data:image/png;base64,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">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Noto+Music&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal:#159AA6; --teal2:#12808a; --navy:#1B2A5B; --ink:#23324f;
+    --bg:#eef3f6; --card:#ffffff; --line:#9aa6b2;
+    --open:#9AA0A8; --f1:#F0B417; --f2:#E4384E; --f3:#5CB0D8; --f4:#96B75E;
+    --good:#2fa96b; --bad:#e4384e;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; height:100%;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:linear-gradient(160deg,#f3f8fa,#e4edf1); color:var(--ink);
+    display:flex; flex-direction:column; align-items:center; min-height:100%;
+    padding:14px; overscroll-behavior:none;
+  }
+  .wrap{width:100%; max-width:560px; display:flex; flex-direction:column; gap:14px;}
+  header{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+  h1{font-family:'Orbitron',sans-serif; font-weight:900; color:var(--navy);
+     font-size:clamp(18px,5vw,26px); margin:0; letter-spacing:.5px;}
+  h1 small{display:block; font-weight:600; color:var(--teal); font-size:.5em; letter-spacing:2px;}
+  .prog{font-family:'Orbitron',sans-serif; font-weight:700; color:var(--navy); font-size:14px; text-align:right; white-space:nowrap;}
+  .bar{height:8px; background:#d6e0e6; border-radius:6px; overflow:hidden; margin-top:5px;}
+  .bar>i{display:block; height:100%; background:linear-gradient(90deg,var(--teal),#39c0cc); width:0%; transition:width .35s;}
+  .card{background:var(--card); border-radius:18px; box-shadow:0 6px 22px rgba(27,42,91,.08); padding:16px;}
+  .staffcard{display:flex; justify-content:center; align-items:center; padding:10px 4px 4px;}
+  svg{width:100%; height:auto; max-width:420px;}
+  .qhead{font-family:'Orbitron',sans-serif; font-weight:700; color:var(--teal2);
+     font-size:12px; letter-spacing:2px; text-transform:uppercase; margin-bottom:2px;}
+  .qtext{font-size:clamp(18px,4.6vw,22px); font-weight:700; color:var(--navy); margin:0 0 14px;}
+  .opts{display:grid; gap:10px;}
+  .opts.n7{grid-template-columns:repeat(4,1fr);}
+  .opts.n4{grid-template-columns:repeat(4,1fr);}
+  .opts.n5{grid-template-columns:repeat(5,1fr);}
+  .opt{
+    border:2px solid #dce4ea; background:#fbfdfe; border-radius:14px; padding:16px 6px;
+    font-size:clamp(16px,4.4vw,20px); font-weight:800; color:var(--navy); cursor:pointer;
+    font-family:'Orbitron',sans-serif; transition:transform .06s, border-color .15s, background .15s;
+    display:flex; align-items:center; justify-content:center; min-height:56px; user-select:none;
+  }
+  .opt .sw{width:14px; height:14px; border-radius:50%; margin-right:7px; box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);}
+  .opt:active{transform:scale(.96);}
+  .opt:hover{border-color:var(--teal);}
+  .opt.correct{border-color:var(--good); background:#e7f7ee; color:#1c7a4d;}
+  .opt.wrong{border-color:var(--bad); background:#fdeaec; color:#b8283a;}
+  .opt.disabled{pointer-events:none; opacity:.55;}
+  .opt.reveal{border-color:var(--good); background:#e7f7ee; color:#1c7a4d; opacity:1;}
+  .feedback{margin-top:14px; min-height:26px; font-size:15px; font-weight:600; display:flex; align-items:center; gap:8px;}
+  .feedback .tag{font-family:'Orbitron',sans-serif; font-weight:800; padding:3px 9px; border-radius:8px; font-size:12px; letter-spacing:1px;}
+  .tag.good{background:#e7f7ee; color:#1c7a4d;} .tag.bad{background:#fdeaec; color:#b8283a;}
+  .next{margin-top:14px; width:100%; border:none; border-radius:14px; padding:15px;
+     background:var(--navy); color:#fff; font-family:'Orbitron',sans-serif; font-weight:800;
+     font-size:16px; letter-spacing:1px; cursor:pointer; transition:background .15s, transform .06s;}
+  .next:hover{background:#26386f;} .next:active{transform:scale(.98);}
+  .next.hidden{display:none;}
+  .legend{display:flex; flex-wrap:wrap; gap:8px 14px; justify-content:center; font-size:12.5px; color:#5a6b82;}
+  .legend b{display:inline-flex; align-items:center; gap:6px; font-weight:600;}
+  .legend .dot{width:13px; height:13px; border-radius:50%;}
+  .center{text-align:center;}
+  .big{font-family:'Orbitron',sans-serif; font-weight:900; color:var(--navy); font-size:clamp(22px,6vw,32px); margin:6px 0;}
+  .sub{color:#5a6b82; font-size:15px; margin:0 0 6px;}
+  .hidden{display:none;}
+  footer{font-size:11px; text-align:center; color:#93a1b3; margin-top:2px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Violin Notes<small>NOTE GAME · 1ST POSITION</small></h1>
+    <div class="prog"><span id="pcount">0 / 0</span><div class="bar"><i id="pbar"></i></div></div>
+  </header>
+
+  <div class="card staffcard"><div id="staff"></div></div>
+
+  <div class="card" id="qcard">
+    <div class="qhead" id="qhead">Question 1 of 3</div>
+    <p class="qtext" id="qtext">What note is this?</p>
+    <div class="opts" id="opts"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="next hidden" id="nextBtn">Next</button>
+  </div>
+
+  <div class="card center hidden" id="endcard">
+    <div class="big" id="endTitle">🎻 All notes mastered!</div>
+    <p class="sub" id="endStats"></p>
+    <button class="next" id="againBtn" style="margin-top:6px">Play again</button>
+  </div>
+
+  <div class="legend">
+    <b><span class="dot" style="background:var(--open)"></span>Open</b>
+    <b><span class="dot" style="background:var(--f1)"></span>1st</b>
+    <b><span class="dot" style="background:var(--f2)"></span>2nd</b>
+    <b><span class="dot" style="background:var(--f3)"></span>3rd</b>
+    <b><span class="dot" style="background:var(--f4)"></span>4th finger</b>
+  </div>
+  <footer>Tap an answer — the correct one is revealed each time. Missed notes come back until you master them all.</footer>
+</div>
+
+<script>
+const FCOLOR=['#9AA0A8','#F0B417','#E4384E','#5CB0D8','#96B75E'];
+const FNAME=['Open','1st','2nd','3rd','4th'];
+const STRINGS=['G','D','A','E'];
+
+// ---- note data (1st position) ----
+// naturals: [letter, staffIndex, answers]  answers = [[string,finger],...]
+const NAT=[
+ ['G',-5,[['G',0]]],['A',-4,[['G',1]]],['B',-3,[['G',2]]],['C',-2,[['G',3]]],
+ ['D',-1,[['G',4],['D',0]]],
+ ['E',0,[['D',1]]],['F',1,[['D',2]]],['G',2,[['D',3]]],
+ ['A',3,[['D',4],['A',0]]],
+ ['B',4,[['A',1]]],['C',5,[['A',2]]],['D',6,[['A',3]]],
+ ['E',7,[['A',4],['E',0]]],
+ ['F',8,[['E',1]]],['G',9,[['E',2]]],['A',10,[['E',3]]],['B',11,[['E',4]]]
+];
+// accidentals: [letter, staffIndex, accidental, string, finger]
+// each is spelled so its letter shares the finger of the natural at the same staff line/space,
+// so the string+finger depends only on the note's position (no misleading enharmonics).
+const ACC=[
+ ['A',-4,'b','G',1],['B',-3,'b','G',2],['C',-2,'#','G',3],
+ ['E',0,'b','D',1],['F',1,'#','D',2],['G',2,'#','D',3],
+ ['B',4,'b','A',1],['C',5,'#','A',2],['D',6,'#','A',3],
+ ['F',8,'#','E',1],['G',9,'#','E',2],['A',10,'#','E',3]
+];
+
+const INCLUDE_ACCIDENTALS=false; // beginner mode: natural notes only
+function buildPool(){
+  let pool=[];
+  NAT.forEach((n,i)=>pool.push({key:'n'+i, kind:'nat', letter:n[0], idx:n[1], answers:n[2]}));
+  if(INCLUDE_ACCIDENTALS) ACC.forEach((a,i)=>pool.push({key:'a'+i, kind:'acc', letter:a[0], idx:a[1], acc:a[2], answers:[[a[3],a[4]]]}));
+  return pool;
+}
+const rand=(a)=>a[Math.floor(Math.random()*a.length)];
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+// ---- staff rendering ----
+const HS=11, BOTTOM=150, NOTEX=250, CLEFX=70;
+function yFor(idx){return BOTTOM-idx*HS;}
+function ledger(idx){
+  let lines=[];
+  if(idx<=-2){for(let k=-2;k>=idx;k-=2)lines.push(k);}
+  if(idx>=10){for(let k=10;k<=idx;k+=2)lines.push(k);}
+  return lines;
+}
+function renderStaff(letter,idx,acc){
+  const W=360,H=250;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="treble staff note">`;
+  // staff lines
+  for(let i=0;i<5;i++){const y=yFor(i*2); s+=`<line x1="34" y1="${y}" x2="${W-16}" y2="${y}" stroke="var(--line)" stroke-width="2.4"/>`;}
+  // treble clef (Noto Music glyph)
+  s+=`<text x="${CLEFX}" y="${yFor(2)+64}" text-anchor="middle" font-family="'Noto Music','Apple Symbols','Bravura','Segoe UI Symbol',serif" font-size="185" fill="#7f8ca0">𝄞</text>`;
+  const y=yFor(idx);
+  // ledger lines for the note
+  ledger(idx).forEach(k=>{const ly=yFor(k); s+=`<line x1="${NOTEX-24}" y1="${ly}" x2="${NOTEX+24}" y2="${ly}" stroke="var(--line)" stroke-width="2.4"/>`;});
+  // accidental
+  if(acc){const gl=acc==='#'?'♯':'♭'; s+=`<text x="${NOTEX-40}" y="${y+ (acc==='#'?9:7)}" text-anchor="middle" font-family="'Noto Music','Apple Symbols','Bravura','Segoe UI Symbol',serif" font-size="56" fill="var(--navy)">${gl}</text>`;}
+  // note head (neutral colour so it doesn't reveal the finger)
+  s+=`<g transform="translate(${NOTEX} ${y}) rotate(-20)"><ellipse rx="12.5" ry="9.4" fill="var(--navy)"/></g>`;
+  s+=`</svg>`;
+  document.getElementById('staff').innerHTML=s;
+}
+
+// ---- game state ----
+let pool=[], queue=[], mastered=new Set(), total=0, shown=0, correctCount=0, answerCount=0;
+let cur=null, disp=null, qi=0, qResults=[], chosenString=null, targetAns=null;
+
+function newGame(){
+  pool=buildPool(); total=pool.length; mastered=new Set();
+  queue=shuffle(pool.slice()); shown=0; correctCount=0; answerCount=0;
+  document.getElementById('endcard').classList.add('hidden');
+  document.getElementById('qcard').classList.remove('hidden');
+  document.querySelector('.staffcard').classList.remove('hidden');
+  nextNote();
+}
+function updateProgress(){
+  document.getElementById('pcount').textContent=mastered.size+' / '+total;
+  document.getElementById('pbar').style.width=(100*mastered.size/total)+'%';
+}
+function nextNote(){
+  updateProgress();
+  if(mastered.size>=total){return endGame();}
+  cur=queue.shift();
+  // choose spelling / display
+  disp={letter:cur.letter, idx:cur.idx, acc:cur.acc||''};
+  qi=0; qResults=[]; chosenString=null; targetAns=null;
+  renderStaff(disp.letter,disp.idx,disp.acc);
+  showQuestion();
+}
+function showQuestion(){
+  const fb=document.getElementById('feedback'); fb.innerHTML='';
+  document.getElementById('nextBtn').classList.add('hidden');
+  const head=document.getElementById('qhead'), qt=document.getElementById('qtext'), opts=document.getElementById('opts');
+  head.textContent='Question '+(qi+1)+' of 3';
+  opts.innerHTML='';
+  if(qi===0){
+    qt.textContent='What note is this?';
+    opts.className='opts n7';
+    ['A','B','C','D','E','F','G'].forEach(L=>opts.appendChild(mkOpt(L,()=>answerNote(L))));
+  }else if(qi===1){
+    qt.textContent='Which string does it fall on?';
+    opts.className='opts n4';
+    STRINGS.forEach(S=>opts.appendChild(mkOpt(S+' string',()=>answerString(S))));
+  }else{
+    qt.textContent='Which finger position?';
+    opts.className='opts n5';
+    for(let f=0;f<5;f++){const b=mkOpt(FNAME[f],()=>answerFinger(f)); const sw=document.createElement('span'); sw.className='sw'; sw.style.background=FCOLOR[f]; b.prepend(sw); opts.appendChild(b);}
+  }
+}
+function mkOpt(label,fn){const b=document.createElement('div'); b.className='opt'; b.append(document.createTextNode(label)); b.dataset.label=label; b.onclick=()=>fn(b); return b;}
+function lockOpts(){document.querySelectorAll('.opt').forEach(o=>o.classList.add('disabled'));}
+
+function answerNote(L){
+  lockOpts();
+  const correct = L===disp.letter;
+  qResults[0]=correct;
+  markButtons(o=>o.dataset.label===disp.letter, o=>o.dataset.label===L, correct);
+  reveal(correct, 'The note is '+disp.letter+(disp.acc?(disp.acc==='#'?'♯':'♭'):'')+'.');
+}
+function answerString(S){
+  lockOpts();
+  const validStrings = cur.answers.map(a=>a[0]);
+  const correct = validStrings.includes(S);
+  chosenString = correct ? S : validStrings[0];
+  targetAns = cur.answers.find(a=>a[0]===chosenString) || cur.answers[0];
+  qResults[1]=correct;
+  markButtons(o=>validStrings.includes(o.dataset.label[0]), o=>o.dataset.label===S+' string', correct);
+  let msg='It falls on the '+targetAns[0]+' string';
+  if(cur.answers.length>1){msg+=' (also playable on the '+cur.answers.filter(a=>a[0]!==targetAns[0]).map(a=>a[0]).join('/')+' string)';}
+  reveal(correct, msg+'.');
+}
+function answerFinger(f){
+  lockOpts();
+  const tf=targetAns[1];
+  const correct = f===tf;
+  qResults[2]=correct;
+  markButtons(o=>o.dataset.label===FNAME[tf], o=>o.dataset.label===FNAME[f], correct);
+  const code=targetAns[0]+tf;
+  reveal(correct, FNAME[tf]+(tf===0?' string':' finger')+' — that’s position '+code+' on your chart.', tf);
+}
+function markButtons(isCorrect,isChosen,ok){
+  document.querySelectorAll('.opt').forEach(o=>{
+    if(isCorrect(o)) o.classList.add(ok?'correct':'reveal');
+    else if(isChosen(o)) o.classList.add('wrong');
+  });
+}
+function reveal(ok,text,fingerForColor){
+  const fb=document.getElementById('feedback');
+  let swatch = (fingerForColor!==undefined)?`<span class="dot" style="width:14px;height:14px;border-radius:50%;display:inline-block;background:${FCOLOR[fingerForColor]}"></span>`:'';
+  fb.innerHTML=`<span class="tag ${ok?'good':'bad'}">${ok?'CORRECT':'ANSWER'}</span> ${swatch}<span>${text}</span>`;
+  answerCount++; if(ok)correctCount++;
+  const nb=document.getElementById('nextBtn');
+  nb.textContent = qi<2 ? 'Next question' : 'Next note';
+  nb.classList.remove('hidden');
+}
+document.getElementById('nextBtn').onclick=()=>{
+  if(qi<2){qi++; showQuestion();}
+  else{ // finished this note
+    const allRight=qResults.every(Boolean);
+    if(allRight){mastered.add(cur.key);}
+    else{ // requeue further back so it returns later in the set
+      const pos=Math.min(queue.length, 3+Math.floor(Math.random()*3));
+      queue.splice(pos,0,cur);
+    }
+    nextNote();
+  }
+};
+function endGame(){
+  document.querySelector('.staffcard').classList.add('hidden');
+  document.getElementById('qcard').classList.add('hidden');
+  document.getElementById('endcard').classList.remove('hidden');
+  const acc = answerCount? Math.round(100*correctCount/answerCount):0;
+  document.getElementById('endStats').textContent=`You mastered all ${total} notes with ${acc}% first-try accuracy across ${answerCount} answers.`;
+}
+document.getElementById('againBtn').onclick=newGame;
+newGame();
+</script>
+</body>
+</html>
