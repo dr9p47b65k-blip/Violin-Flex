@@ -19,7 +19,7 @@
     --teal:#159AA6; --teal2:#12808a; --navy:#1B2A5B; --ink:#23324f;
     --bg:#eef3f6; --card:#ffffff; --line:#9aa6b2;
     --open:#9AA0A8; --f1:#F0B417; --f2:#E4384E; --f3:#5CB0D8; --f4:#96B75E;
-    --good:#2fa96b; --bad:#e4384e;
+    --good:#2fa96b; --bad:#e4384e; --p1:#0E9AA7; --p2:#7C4DD0;
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
   html,body{margin:0; height:100%;}
@@ -76,18 +76,51 @@
   .sub{color:#5a6b82; font-size:15px; margin:0 0 6px;}
   .hidden{display:none;}
   footer{font-size:11px; text-align:center; color:#93a1b3; margin-top:2px;}
+
+  /* --- competition + winner --- */
+  .modebtns{display:grid; gap:12px; margin-top:6px;}
+  .modebtn{border:none; border-radius:16px; padding:20px 18px; font-family:'Orbitron',sans-serif; font-weight:800;
+     font-size:17px; letter-spacing:.5px; cursor:pointer; color:#fff; transition:transform .06s; text-align:center;}
+  .modebtn:active{transform:scale(.98);}
+  .modebtn small{display:block; font-weight:600; font-size:12px; opacity:.92; letter-spacing:.3px; margin-top:5px; text-transform:none;}
+  .modebtn.solo{background:linear-gradient(135deg,#159AA6,#0E7B85);}
+  .modebtn.comp{background:linear-gradient(135deg,#1B2A5B,#3a4f96);}
+  .scores{display:flex; gap:8px; align-items:center; justify-content:flex-end;}
+  .spill{font-family:'Orbitron',sans-serif; font-weight:800; font-size:13px; color:#fff; border-radius:20px; padding:6px 12px; opacity:.5; transition:opacity .2s, transform .2s;}
+  .spill.p1{background:var(--p1);} .spill.p2{background:var(--p2);}
+  .spill.active{opacity:1; transform:scale(1.1); box-shadow:0 3px 10px rgba(0,0,0,.2);}
+  .turnbanner{border-radius:14px; padding:12px; text-align:center; font-family:'Orbitron',sans-serif;
+     font-weight:800; color:#fff; letter-spacing:.5px; font-size:16px; box-shadow:0 4px 14px rgba(27,42,91,.12);}
+  .turnbanner.p1{background:var(--p1);} .turnbanner.p2{background:var(--p2);}
+  .turnbanner small{display:block; font-weight:600; font-size:12px; opacity:.9; letter-spacing:1px; margin-top:2px;}
+  #confetti{position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:60; display:none;}
+  .winbig{font-family:'Orbitron',sans-serif; font-weight:900; font-size:clamp(23px,6.5vw,38px); margin:8px 0; line-height:1.15;}
+  .winscore{font-family:'Orbitron',sans-serif; font-weight:800; font-size:19px; margin:12px 0 4px; color:var(--navy);}
+  .winner-emoji{font-size:44px;}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <h1>Violin Flex<small>NOTE GAME · 1ST POSITION</small></h1>
-    <div class="prog"><span id="pcount">0 / 0</span><div class="bar"><i id="pbar"></i></div></div>
+    <h1>Violin Flex<small id="subttl">NOTE READING GAME</small></h1>
+    <div class="prog">
+      <div id="soloprog" class="hidden"><span id="pcount">0 / 0</span><div class="bar"><i id="pbar"></i></div></div>
+      <div id="compprog" class="scores hidden"><span class="spill p1" id="s1">P1 0</span><span class="spill p2" id="s2">P2 0</span></div>
+    </div>
   </header>
 
-  <div class="card staffcard"><div id="staff"></div></div>
+  <div class="card" id="startcard">
+    <div class="qhead">Choose a mode</div>
+    <div class="modebtns">
+      <button class="modebtn solo" id="btnSolo">Solo Practice<small>Master all the notes at your own pace</small></button>
+      <button class="modebtn comp" id="btnComp">2&#8209;Player Competition<small>Take turns &mdash; most correct answers wins</small></button>
+    </div>
+  </div>
 
-  <div class="card" id="qcard">
+  <div class="turnbanner p1 hidden" id="turnbanner">Player 1&rsquo;s turn</div>
+  <div class="card staffcard hidden" id="staffcard"><div id="staff"></div></div>
+
+  <div class="card hidden" id="qcard">
     <div class="qhead" id="qhead">Question 1 of 3</div>
     <p class="qtext" id="qtext">What note is this?</p>
     <div class="opts" id="opts"></div>
@@ -96,28 +129,35 @@
   </div>
 
   <div class="card center hidden" id="endcard">
-    <div class="big" id="endTitle">🎻 All notes mastered!</div>
+    <div class="big" id="endTitle">&#127925; All notes mastered!</div>
     <p class="sub" id="endStats"></p>
     <button class="next" id="againBtn" style="margin-top:6px">Play again</button>
+    <button class="next" id="homeBtn0" style="margin-top:10px; background:#5a6b82">Back to menu</button>
   </div>
 
-  <div class="legend">
+  <div class="card center hidden" id="winnercard">
+    <div class="winner-emoji">&#127881;</div>
+    <div class="winbig" id="winTitle">Congratulations!</div>
+    <div class="winscore" id="winScore"></div>
+    <button class="next" id="againBtn2" style="margin-top:6px">New match</button>
+    <button class="next" id="homeBtn" style="margin-top:10px; background:#5a6b82">Back to menu</button>
+  </div>
+
+  <div class="legend" id="legend">
     <b><span class="dot" style="background:var(--open)"></span>Open</b>
     <b><span class="dot" style="background:var(--f1)"></span>1st</b>
     <b><span class="dot" style="background:var(--f2)"></span>2nd</b>
     <b><span class="dot" style="background:var(--f3)"></span>3rd</b>
     <b><span class="dot" style="background:var(--f4)"></span>4th finger</b>
   </div>
-  <footer>Tap an answer — the correct one is revealed each time. Missed notes come back until you master them all.</footer>
+  <footer id="footer">Read the note on the staff, then answer: note &rarr; string &rarr; finger. The answer is shown after each tap.</footer>
 </div>
+<canvas id="confetti"></canvas>
 
 <script>
 const FCOLOR=['#9AA0A8','#F0B417','#E4384E','#5CB0D8','#96B75E'];
 const FNAME=['Open','1st','2nd','3rd','4th'];
 const STRINGS=['G','D','A','E'];
-
-// ---- note data (1st position) ----
-// naturals: [letter, staffIndex, answers]  answers = [[string,finger],...]
 const NAT=[
  ['G',-5,[['G',0]]],['A',-4,[['G',1]]],['B',-3,[['G',2]]],['C',-2,[['G',3]]],
  ['D',-1,[['G',4],['D',0]]],
@@ -127,17 +167,13 @@ const NAT=[
  ['E',7,[['A',4],['E',0]]],
  ['F',8,[['E',1]]],['G',9,[['E',2]]],['A',10,[['E',3]]],['B',11,[['E',4]]]
 ];
-// accidentals: [letter, staffIndex, accidental, string, finger]
-// each is spelled so its letter shares the finger of the natural at the same staff line/space,
-// so the string+finger depends only on the note's position (no misleading enharmonics).
 const ACC=[
  ['A',-4,'b','G',1],['B',-3,'b','G',2],['C',-2,'#','G',3],
  ['E',0,'b','D',1],['F',1,'#','D',2],['G',2,'#','D',3],
  ['B',4,'b','A',1],['C',5,'#','A',2],['D',6,'#','A',3],
  ['F',8,'#','E',1],['G',9,'#','E',2],['A',10,'#','E',3]
 ];
-
-const INCLUDE_ACCIDENTALS=false; // beginner mode: natural notes only
+const INCLUDE_ACCIDENTALS=false;
 function buildPool(){
   let pool=[];
   NAT.forEach((n,i)=>pool.push({key:'n'+i, kind:'nat', letter:n[0], idx:n[1], answers:n[2]}));
@@ -147,146 +183,174 @@ function buildPool(){
 const rand=(a)=>a[Math.floor(Math.random()*a.length)];
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 
-// ---- staff rendering ----
 const HS=11, BOTTOM=150, NOTEX=250, CLEFX=70;
 function yFor(idx){return BOTTOM-idx*HS;}
-function ledger(idx){
-  let lines=[];
-  if(idx<=-2){for(let k=-2;k>=idx;k-=2)lines.push(k);}
-  if(idx>=10){for(let k=10;k<=idx;k+=2)lines.push(k);}
-  return lines;
-}
+function ledger(idx){let L=[]; if(idx<=-2){for(let k=-2;k>=idx;k-=2)L.push(k);} if(idx>=10){for(let k=10;k<=idx;k+=2)L.push(k);} return L;}
 function renderStaff(letter,idx,acc){
-  const W=360,H=250;
-  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="treble staff note">`;
-  // staff lines
-  for(let i=0;i<5;i++){const y=yFor(i*2); s+=`<line x1="34" y1="${y}" x2="${W-16}" y2="${y}" stroke="var(--line)" stroke-width="2.4"/>`;}
-  // treble clef (Noto Music glyph)
-  s+=`<text x="${CLEFX}" y="${yFor(2)+64}" text-anchor="middle" font-family="'Noto Music','Apple Symbols','Bravura','Segoe UI Symbol',serif" font-size="185" fill="#7f8ca0">𝄞</text>`;
+  const W=360,H=250; let s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="treble staff note">';
+  for(let i=0;i<5;i++){const y=yFor(i*2); s+='<line x1="34" y1="'+y+'" x2="'+(W-16)+'" y2="'+y+'" stroke="var(--line)" stroke-width="2.4"/>';}
+  s+='<text x="'+CLEFX+'" y="'+(yFor(2)+64)+'" text-anchor="middle" font-family="\'Noto Music\',\'Apple Symbols\',\'Bravura\',\'Segoe UI Symbol\',serif" font-size="185" fill="#7f8ca0">𝄞</text>';
   const y=yFor(idx);
-  // ledger lines for the note
-  ledger(idx).forEach(k=>{const ly=yFor(k); s+=`<line x1="${NOTEX-24}" y1="${ly}" x2="${NOTEX+24}" y2="${ly}" stroke="var(--line)" stroke-width="2.4"/>`;});
-  // accidental
-  if(acc){const gl=acc==='#'?'♯':'♭'; s+=`<text x="${NOTEX-40}" y="${y+ (acc==='#'?9:7)}" text-anchor="middle" font-family="'Noto Music','Apple Symbols','Bravura','Segoe UI Symbol',serif" font-size="56" fill="var(--navy)">${gl}</text>`;}
-  // note head (neutral colour so it doesn't reveal the finger)
-  s+=`<g transform="translate(${NOTEX} ${y}) rotate(-20)"><ellipse rx="12.5" ry="9.4" fill="var(--navy)"/></g>`;
-  s+=`</svg>`;
+  ledger(idx).forEach(k=>{const ly=yFor(k); s+='<line x1="'+(NOTEX-24)+'" y1="'+ly+'" x2="'+(NOTEX+24)+'" y2="'+ly+'" stroke="var(--line)" stroke-width="2.4"/>';});
+  if(acc){const gl=acc==='#'?'♯':'♭'; s+='<text x="'+(NOTEX-40)+'" y="'+(y+(acc==='#'?9:7))+'" text-anchor="middle" font-family="\'Noto Music\',\'Apple Symbols\',serif" font-size="56" fill="var(--navy)">'+gl+'</text>';}
+  s+='<g transform="translate('+NOTEX+' '+y+') rotate(-20)"><ellipse rx="12.5" ry="9.4" fill="var(--navy)"/></g></svg>';
   document.getElementById('staff').innerHTML=s;
 }
 
-// ---- game state ----
-let pool=[], queue=[], mastered=new Set(), total=0, shown=0, correctCount=0, answerCount=0;
-let cur=null, disp=null, qi=0, qResults=[], chosenString=null, targetAns=null;
+const $=id=>document.getElementById(id);
+const hide=(...ids)=>ids.forEach(i=>$(i).classList.add('hidden'));
+const show=(...ids)=>ids.forEach(i=>$(i).classList.remove('hidden'));
 
-function newGame(){
+let mode=null;
+// solo
+let pool=[],queue=[],mastered=new Set(),total=0,correctCount=0,answerCount=0;
+// competition
+let compPool=[],compBag=[],compTotal=0,compQ=0,scores=[0,0],curPlayer=0;
+// draw the next note from a reshuffling "bag": order is always random, and every
+// note appears once before any repeats — works for any match length (20/50/100).
+function drawFromBag(){ if(compBag.length===0){ compBag=shuffle(compPool.slice()); } return compBag.shift(); }
+// per note
+let cur=null,disp=null,qi=0,qResults=[],chosenString=null,targetAns=null;
+
+function showStart(){
+  mode=null; stopConfetti();
+  hide('turnbanner','staffcard','qcard','endcard','winnercard','soloprog','compprog');
+  show('startcard');
+}
+// ---------- SOLO ----------
+function startSolo(){
+  mode='solo'; stopConfetti();
+  hide('startcard','endcard','winnercard','turnbanner','compprog'); show('staffcard','qcard','soloprog');
   pool=buildPool(); total=pool.length; mastered=new Set();
-  queue=shuffle(pool.slice()); shown=0; correctCount=0; answerCount=0;
-  document.getElementById('endcard').classList.add('hidden');
-  document.getElementById('qcard').classList.remove('hidden');
-  document.querySelector('.staffcard').classList.remove('hidden');
+  queue=shuffle(pool.slice()); correctCount=0; answerCount=0;
   nextNote();
 }
-function updateProgress(){
-  document.getElementById('pcount').textContent=mastered.size+' / '+total;
-  document.getElementById('pbar').style.width=(100*mastered.size/total)+'%';
-}
+function updateProgress(){ $('pcount').textContent=mastered.size+' / '+total; $('pbar').style.width=(100*mastered.size/total)+'%'; }
 function nextNote(){
   updateProgress();
-  if(mastered.size>=total){return endGame();}
-  cur=queue.shift();
-  // choose spelling / display
-  disp={letter:cur.letter, idx:cur.idx, acc:cur.acc||''};
+  if(mastered.size>=total){return endSolo();}
+  cur=queue.shift(); present(cur);
+}
+function endSolo(){
+  hide('staffcard','qcard'); show('endcard');
+  const acc=answerCount?Math.round(100*correctCount/answerCount):0;
+  $('endStats').textContent='You mastered all '+total+' notes with '+acc+'% first-try accuracy across '+answerCount+' answers.';
+}
+// ---------- COMPETITION ----------
+function startComp(){
+  mode='comp'; stopConfetti();
+  hide('startcard','endcard','winnercard','soloprog'); show('staffcard','qcard','compprog','turnbanner');
+  compPool=buildPool(); compBag=[]; compTotal=rand([20,50,100]); scores=[0,0]; compQ=0; curPlayer=0;
+  $('s1').textContent='P1 0'; $('s2').textContent='P2 0';
+  nextComp();
+}
+function nextComp(){
+  compQ++;
+  if(compQ>compTotal){return showWinner();}
+  $('s1').classList.toggle('active',curPlayer===0);
+  $('s2').classList.toggle('active',curPlayer===1);
+  const tb=$('turnbanner'); tb.className='turnbanner '+(curPlayer===0?'p1':'p2');
+  tb.innerHTML='Player '+(curPlayer+1)+'&rsquo;s turn<small>QUESTION '+compQ+' OF '+compTotal+'</small>';
+  cur=drawFromBag(); present(cur);
+}
+function present(note){
+  disp={letter:note.letter, idx:note.idx, acc:note.acc||''};
   qi=0; qResults=[]; chosenString=null; targetAns=null;
   renderStaff(disp.letter,disp.idx,disp.acc);
   showQuestion();
 }
 function showQuestion(){
-  const fb=document.getElementById('feedback'); fb.innerHTML='';
-  document.getElementById('nextBtn').classList.add('hidden');
-  const head=document.getElementById('qhead'), qt=document.getElementById('qtext'), opts=document.getElementById('opts');
-  head.textContent='Question '+(qi+1)+' of 3';
+  $('feedback').innerHTML=''; $('nextBtn').classList.add('hidden');
+  const head=$('qhead'), qt=$('qtext'), opts=$('opts');
+  head.textContent=(mode==='comp'?'Part ':'Question ')+(qi+1)+' of 3';
   opts.innerHTML='';
-  if(qi===0){
-    qt.textContent='What note is this?';
-    opts.className='opts n7';
-    ['A','B','C','D','E','F','G'].forEach(L=>opts.appendChild(mkOpt(L,()=>answerNote(L))));
-  }else if(qi===1){
-    qt.textContent='Which string does it fall on?';
-    opts.className='opts n4';
-    STRINGS.forEach(S=>opts.appendChild(mkOpt(S+' string',()=>answerString(S))));
-  }else{
-    qt.textContent='Which finger position?';
-    opts.className='opts n5';
-    for(let f=0;f<5;f++){const b=mkOpt(FNAME[f],()=>answerFinger(f)); const sw=document.createElement('span'); sw.className='sw'; sw.style.background=FCOLOR[f]; b.prepend(sw); opts.appendChild(b);}
-  }
+  if(qi===0){ qt.textContent='What note is this?'; opts.className='opts n7';
+    ['A','B','C','D','E','F','G'].forEach(L=>opts.appendChild(mkOpt(L,()=>answerNote(L)))); }
+  else if(qi===1){ qt.textContent='Which string does it fall on?'; opts.className='opts n4';
+    STRINGS.forEach(S=>opts.appendChild(mkOpt(S+' string',()=>answerString(S)))); }
+  else { qt.textContent='Which finger position?'; opts.className='opts n5';
+    for(let f=0;f<5;f++){const b=mkOpt(FNAME[f],()=>answerFinger(f)); const sw=document.createElement('span'); sw.className='sw'; sw.style.background=FCOLOR[f]; b.prepend(sw); opts.appendChild(b);} }
 }
 function mkOpt(label,fn){const b=document.createElement('div'); b.className='opt'; b.append(document.createTextNode(label)); b.dataset.label=label; b.onclick=()=>fn(b); return b;}
 function lockOpts(){document.querySelectorAll('.opt').forEach(o=>o.classList.add('disabled'));}
+function markButtons(isCorrect,isChosen,ok){document.querySelectorAll('.opt').forEach(o=>{ if(isCorrect(o)) o.classList.add(ok?'correct':'reveal'); else if(isChosen(o)) o.classList.add('wrong'); });}
 
-function answerNote(L){
-  lockOpts();
-  const correct = L===disp.letter;
-  qResults[0]=correct;
-  markButtons(o=>o.dataset.label===disp.letter, o=>o.dataset.label===L, correct);
-  reveal(correct, 'The note is '+disp.letter+(disp.acc?(disp.acc==='#'?'♯':'♭'):'')+'.');
+function answerNote(L){ lockOpts(); const ok=L===disp.letter; qResults[0]=ok;
+  markButtons(o=>o.dataset.label===disp.letter,o=>o.dataset.label===L,ok);
+  reveal(ok,'The note is '+disp.letter+(disp.acc?(disp.acc==='#'?'♯':'♭'):'')+'.'); }
+function answerString(S){ lockOpts(); const valid=cur.answers.map(a=>a[0]); const ok=valid.includes(S); qResults[1]=ok;
+  chosenString=ok?S:valid[0]; targetAns=cur.answers.find(a=>a[0]===chosenString)||cur.answers[0];
+  markButtons(o=>valid.includes(o.dataset.label[0]),o=>o.dataset.label===S+' string',ok);
+  let m='It falls on the '+targetAns[0]+' string';
+  if(cur.answers.length>1){m+=' (also playable on the '+cur.answers.filter(a=>a[0]!==targetAns[0]).map(a=>a[0]).join('/')+' string)';}
+  reveal(ok,m+'.'); }
+function answerFinger(f){ lockOpts(); const tf=targetAns[1]; const ok=f===tf; qResults[2]=ok;
+  markButtons(o=>o.dataset.label===FNAME[tf],o=>o.dataset.label===FNAME[f],ok);
+  reveal(ok,FNAME[tf]+(tf===0?' string':' finger')+' — position '+targetAns[0]+tf+'.',tf); }
+
+function reveal(ok,text,fingerColor){
+  const fb=$('feedback');
+  let sw=(fingerColor!==undefined)?'<span class="dot" style="width:14px;height:14px;border-radius:50%;display:inline-block;background:'+FCOLOR[fingerColor]+'"></span>':'';
+  fb.innerHTML='<span class="tag '+(ok?'good':'bad')+'">'+(ok?'CORRECT':'ANSWER')+'</span> '+sw+'<span>'+text+'</span>';
+  if(mode==='comp'){ if(ok){scores[curPlayer]++; $('s'+(curPlayer+1)).textContent='P'+(curPlayer+1)+' '+scores[curPlayer];} }
+  else { answerCount++; if(ok)correctCount++; }
+  const nb=$('nextBtn'); nb.textContent = qi<2 ? 'Next' : (mode==='comp'?'Next player':'Next note'); nb.classList.remove('hidden');
 }
-function answerString(S){
-  lockOpts();
-  const validStrings = cur.answers.map(a=>a[0]);
-  const correct = validStrings.includes(S);
-  chosenString = correct ? S : validStrings[0];
-  targetAns = cur.answers.find(a=>a[0]===chosenString) || cur.answers[0];
-  qResults[1]=correct;
-  markButtons(o=>validStrings.includes(o.dataset.label[0]), o=>o.dataset.label===S+' string', correct);
-  let msg='It falls on the '+targetAns[0]+' string';
-  if(cur.answers.length>1){msg+=' (also playable on the '+cur.answers.filter(a=>a[0]!==targetAns[0]).map(a=>a[0]).join('/')+' string)';}
-  reveal(correct, msg+'.');
-}
-function answerFinger(f){
-  lockOpts();
-  const tf=targetAns[1];
-  const correct = f===tf;
-  qResults[2]=correct;
-  markButtons(o=>o.dataset.label===FNAME[tf], o=>o.dataset.label===FNAME[f], correct);
-  const code=targetAns[0]+tf;
-  reveal(correct, FNAME[tf]+(tf===0?' string':' finger')+' — that’s position '+code+' on your chart.', tf);
-}
-function markButtons(isCorrect,isChosen,ok){
-  document.querySelectorAll('.opt').forEach(o=>{
-    if(isCorrect(o)) o.classList.add(ok?'correct':'reveal');
-    else if(isChosen(o)) o.classList.add('wrong');
-  });
-}
-function reveal(ok,text,fingerForColor){
-  const fb=document.getElementById('feedback');
-  let swatch = (fingerForColor!==undefined)?`<span class="dot" style="width:14px;height:14px;border-radius:50%;display:inline-block;background:${FCOLOR[fingerForColor]}"></span>`:'';
-  fb.innerHTML=`<span class="tag ${ok?'good':'bad'}">${ok?'CORRECT':'ANSWER'}</span> ${swatch}<span>${text}</span>`;
-  answerCount++; if(ok)correctCount++;
-  const nb=document.getElementById('nextBtn');
-  nb.textContent = qi<2 ? 'Next question' : 'Next note';
-  nb.classList.remove('hidden');
-}
-document.getElementById('nextBtn').onclick=()=>{
-  if(qi<2){qi++; showQuestion();}
-  else{ // finished this note
-    const allRight=qResults.every(Boolean);
-    if(allRight){mastered.add(cur.key);}
-    else{ // requeue further back so it returns later in the set
-      const pos=Math.min(queue.length, 3+Math.floor(Math.random()*3));
-      queue.splice(pos,0,cur);
-    }
+$('nextBtn').onclick=()=>{
+  if(qi<2){qi++; showQuestion(); return;}
+  if(mode==='solo'){
+    if(qResults.every(Boolean)) mastered.add(cur.key);
+    else { const pos=Math.min(queue.length,3+Math.floor(Math.random()*3)); queue.splice(pos,0,cur); }
     nextNote();
+  } else {
+    curPlayer=1-curPlayer; nextComp();
   }
 };
-function endGame(){
-  document.querySelector('.staffcard').classList.add('hidden');
-  document.getElementById('qcard').classList.add('hidden');
-  document.getElementById('endcard').classList.remove('hidden');
-  const acc = answerCount? Math.round(100*correctCount/answerCount):0;
-  document.getElementById('endStats').textContent=`You mastered all ${total} notes with ${acc}% first-try accuracy across ${answerCount} answers.`;
+function showWinner(){
+  hide('staffcard','qcard','turnbanner'); show('winnercard');
+  $('s1').classList.remove('active'); $('s2').classList.remove('active');
+  let t=$('winTitle'), sc=$('winScore');
+  if(scores[0]===scores[1]){ t.textContent="It’s a tie!"; t.style.color='var(--navy)'; }
+  else { const w=scores[0]>scores[1]?1:2; t.textContent='Congratulations Player '+w+'!'; t.style.color=(w===1?'var(--p1)':'var(--p2)'); }
+  sc.innerHTML='Player 1: '+scores[0]+' &nbsp;&nbsp;&middot;&nbsp;&nbsp; Player 2: '+scores[1];
+  startConfetti();
 }
-document.getElementById('againBtn').onclick=newGame;
-newGame();
+
+// ---------- confetti + fireworks ----------
+const CC=['#159AA6','#F0B417','#E4384E','#5CB0D8','#96B75E','#7C4DD0','#1B2A5B'];
+let cvs,ctx,parts=[],running=false,tick=0,raf=null;
+function resizeCanvas(){ if(!cvs)return; cvs.width=window.innerWidth; cvs.height=window.innerHeight; }
+function spawnConfetti(){ parts.push({t:'c',x:Math.random()*cvs.width,y:-12,vx:(Math.random()-.5)*1.6,vy:2+Math.random()*2.6,w:6+Math.random()*7,h:9+Math.random()*8,rot:Math.random()*6,vr:(Math.random()-.5)*.3,c:CC[Math.floor(Math.random()*CC.length)]}); }
+function firework(){ const fx=cvs.width*(.15+Math.random()*.7),fy=cvs.height*(.12+Math.random()*.35),c=CC[Math.floor(Math.random()*CC.length)],n=36;
+  for(let i=0;i<n;i++){const ang=(Math.PI*2*i)/n,sp=2+Math.random()*3.2; parts.push({t:'f',x:fx,y:fy,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp,c,life:1});} }
+function loop(){
+  if(!running)return; tick++;
+  ctx.clearRect(0,0,cvs.width,cvs.height);
+  if(tick%3===0)spawnConfetti();
+  if(tick%50===0)firework();
+  for(let i=parts.length-1;i>=0;i--){ const p=parts[i];
+    if(p.t==='c'){ p.x+=p.vx; p.y+=p.vy; p.rot+=p.vr;
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.fillStyle=p.c; ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h); ctx.restore();
+      if(p.y>cvs.height+20)parts.splice(i,1);
+    } else { p.vy+=0.05; p.x+=p.vx; p.y+=p.vy; p.life-=0.012;
+      ctx.globalAlpha=Math.max(0,p.life); ctx.fillStyle=p.c; ctx.beginPath(); ctx.arc(p.x,p.y,3.2,0,7); ctx.fill(); ctx.globalAlpha=1;
+      if(p.life<=0)parts.splice(i,1);
+    }
+  }
+  raf=requestAnimationFrame(loop);
+}
+function startConfetti(){ cvs=$('confetti'); ctx=cvs.getContext('2d'); cvs.style.display='block'; resizeCanvas(); parts=[]; tick=0; running=true; firework(); loop(); }
+function stopConfetti(){ running=false; if(raf)cancelAnimationFrame(raf); if(ctx&&cvs)ctx.clearRect(0,0,cvs.width,cvs.height); parts=[]; if(cvs)cvs.style.display='none'; }
+window.addEventListener('resize',resizeCanvas);
+
+// ---------- buttons ----------
+$('btnSolo').onclick=startSolo;
+$('btnComp').onclick=startComp;
+$('againBtn').onclick=startSolo;
+$('homeBtn0').onclick=showStart;
+$('againBtn2').onclick=startComp;
+$('homeBtn').onclick=showStart;
+showStart();
 </script>
 </body>
 </html>
